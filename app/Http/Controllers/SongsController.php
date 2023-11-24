@@ -33,7 +33,7 @@ class SongsController extends Controller
         dd($selectedData);
 
         return view('tes', [
-            'data' => $selecedData
+            'data' => $selectedData
         ]);
     }
 
