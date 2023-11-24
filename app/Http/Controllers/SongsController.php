@@ -14,9 +14,26 @@ class SongsController extends Controller
     public function index()
     {
         $data = Songs::all()->take(30)->toArray();
-        dd($data);
+        // dd($data);
+        $selectedData = [];
+        foreach ($data as $song) {
+            $selectedData[] = [
+                'tempo' => $song['tempo'],
+                'acousticness' => $song['acousticness'],
+                'speechiness' => $song['speechiness'],
+                'loudness' => $song['loudness'],
+                'instrumentalness' => $song['instrumentalness'],
+                'energy' => $song['energy'],
+                'valence' => $song['valence'],
+                'danceability' => $song['danceability'],
+                'duration' => $song['duration_ms']
+            ];
+        }
+
+        dd($selectedData);
+
         return view('tes', [
-            'data' => $data
+            'data' => $selecedData
         ]);
     }
 
