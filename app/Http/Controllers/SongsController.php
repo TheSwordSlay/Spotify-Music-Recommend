@@ -13,7 +13,7 @@ class SongsController extends Controller
      */
     public function index()
     {
-        $data = Songs::all()->toArray();
+        $data = Songs::all()->take(30)->toArray();
         dd($data);
         return view('tes', [
             'data' => $data
