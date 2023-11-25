@@ -73,18 +73,18 @@ class SongsController extends Controller
         }
         
         $data = Songs::all()->toArray();
-        $maxLoud = 0;
-        foreach($data as $song){
-            if ((-1 * $song["loudness"]) > $maxLoud) {
-                $maxLoud = -1 * $song["loudness"];
+        $maxLoud = max(array_column($data, 'loudness'));
+
+        if(max(array_column($data, 'loudness')) > 0) {
+            foreach($data as &$song){
+                $song['loudness'] -= ($maxLoud + 0.1);
             }
         }
 
+        $minLoud = min(array_column($data, 'loudness'));
+
         foreach ($data as &$song) {
-            if($song["loudness"]>0) {
-                $song["loudness"] = -$song["loudness"];
-            }
-            $song["vectorS"] = powr($song["tempo"], $tempo) * powr($song["acousticness"], $accousticness) * powr($song["speechiness"], $speechiness) * powr(($maxLoud/(-$song["loudness"])), $loudness) * powr($song["instrumentalness"], $instrumentalness) * powr($song["energy"], $energy) * powr($song["valence"], $valence) * powr($song["danceability"], $danceability) * powr($song["duration_ms"], $duration); 
+            $song["vectorS"] = powr($song["tempo"], $tempo) * powr($song["acousticness"], $accousticness) * powr($song["speechiness"], $speechiness) * powr(($minLoud/(-$song["loudness"])), $loudness) * powr($song["instrumentalness"], $instrumentalness) * powr($song["energy"], $energy) * powr($song["valence"], $valence) * powr($song["danceability"], $danceability) * powr($song["duration_ms"], $duration); 
             
         }
 
