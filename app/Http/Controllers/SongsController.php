@@ -13,6 +13,18 @@ class SongsController extends Controller
      */
     public function index()
     {
+        $tempoB = 60;
+        $acousticnessB = 40;
+        $speechinessB = -50;
+        $loudnessB = -70;
+        $instrumentalnessB = -30;
+        $energyB = -50;
+        $valenceB = 40;
+        $danceabilityB = -60;
+        $durationB = 0;
+
+        
+
         $data = Songs::all()->take(30)->toArray();
         // dd($data);
         $selectedData = [];
