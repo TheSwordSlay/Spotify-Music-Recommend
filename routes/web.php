@@ -26,16 +26,18 @@ use Inertia\Inertia;
 //     ]);
 // });
 
-Route::get('/', function () {
-    return Inertia::render('Homepage');
-});
+// Route::get('/', function () {
+//     return Inertia::render('Homepage');
+// });
+Route::get('/', [SongsController::class, 'homePage']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/tesbobot', [SongsController::class, 'testBobot'])->name('tesbobot');
-Route::get('/hitungWP', [SongsController::class, 'hitungWP'])->name('hitungWP');
+Route::get('/recommendation', [SongsController::class, 'hitungWP'])->name('hitungWP');
+// Route::get('/recommendation', [SongsController::class, 'recommendPage'])->name('recommendPage');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

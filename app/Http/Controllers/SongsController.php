@@ -6,6 +6,7 @@ use App\Models\Songs;
 use App\Http\Requests\StoreSongsRequest;
 use App\Http\Requests\UpdateSongsRequest;
 use Illuminate\Support\Facades\Request;
+use Inertia\Inertia;
 
 class SongsController extends Controller
 {
@@ -16,10 +17,19 @@ class SongsController extends Controller
     {
         $tempo = 60;
 
-        $data = Songs::all()->take(100)->toArray();
+        $data = Songs::all()->take(10)->toArray();
         dd($data);
         return view('tes', [
             'data' => $data
+        ]);
+    }
+
+    public function homePage()
+    {
+        // $data = Songs::select()->distinct()->orderBy('popularity', 'DESC')->take(10)->get();
+        $data = Songs::select('track_id', 'popularity', 'track_name')->distinct()->orderBy('popularity', 'DESC')->take(10)->get();
+        return Inertia::render('Homepage', [
+            'popularSongs' => $data
         ]);
     }
 
@@ -31,13 +41,15 @@ class SongsController extends Controller
 
     public function hitungWP()
     {
+        
         function powr($int1, $int2){
             if ($int1 == 0) {
-                return 1;
+                return pow(0.000001, $int2);
             } else {
                 return pow($int1, $int2);
             }
         }
+
         $tempo = request('tempo');
         $accousticness = request('accousticness');
         $speechiness = request('speechiness');
@@ -84,7 +96,7 @@ class SongsController extends Controller
         $minLoud = min(array_column($data, 'loudness'));
 
         foreach ($data as &$song) {
-            $song["vectorS"] = powr($song["tempo"], $tempo) * powr($song["acousticness"], $accousticness) * powr($song["speechiness"], $speechiness) * powr(($minLoud/(-$song["loudness"])), $loudness) * powr($song["instrumentalness"], $instrumentalness) * powr($song["energy"], $energy) * powr($song["valence"], $valence) * powr($song["danceability"], $danceability) * powr($song["duration_ms"], $duration); 
+            $song["vectorS"] = powr($song["tempo"], $tempo) * powr($song["acousticness"], $accousticness) * powr($song["speechiness"], $speechiness) * powr(($minLoud/($song["loudness"])), $loudness) * powr($song["instrumentalness"], $instrumentalness) * powr($song["energy"], $energy) * powr($song["valence"], $valence) * powr($song["danceability"], $danceability) * powr($song["duration_ms"], $duration); 
             
         }
 
@@ -95,10 +107,17 @@ class SongsController extends Controller
 
         $vectorI = array_column($data, 'vectorI');
         array_multisort($vectorI, SORT_DESC, $data);
+        $slice = array_slice($data, 0, 10);
+        
+        return Inertia::render('RecommendPage', [
+            'songs' => $slice
+        ]);
+    }
 
-        dd($data);
-        return view('tes', [
-            'data' => $data
+    public function recommendPage()
+    {
+        return Inertia::render('RecommendPage', [
+            'req' => request()->all(),
         ]);
     }
 
