@@ -96,7 +96,7 @@ class SongsController extends Controller
         $minLoud = min(array_column($data, 'loudness'));
 
         foreach ($data as &$song) {
-            $song["vectorS"] = powr($song["tempo"], $tempo) * powr($song["acousticness"], $accousticness) * powr($song["speechiness"], $speechiness) * powr(($minLoud/($song["loudness"])), $loudness) * powr($song["instrumentalness"], $instrumentalness) * powr($song["energy"], $energy) * powr($song["valence"], $valence) * powr($song["danceability"], $danceability) * powr($song["duration_ms"], $duration); 
+            $song["vectorS"] = powr($song["tempo"], $tempo) * powr($song["acousticness"], $accousticness) * powr($song["speechiness"], $speechiness) * powr(($minLoud/($song["loudness"])), $loudness) * powr($song["instrumentalness"], $instrumentalness) * powr($song["energy"], $energy) * powr($song["valence"], $valence) * powr($song["danceability"], $danceability) * powr($song["duration_ms"], $duration);
             
         }
 
@@ -110,7 +110,7 @@ class SongsController extends Controller
         $slice = array_slice($data, 0, 10);
         
         return Inertia::render('RecommendPage', [
-            'songs' => $slice
+            'songs' => $slice,
         ]);
     }
 

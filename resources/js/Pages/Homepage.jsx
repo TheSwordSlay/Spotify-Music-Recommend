@@ -56,8 +56,8 @@ export default function Homepage(props) {
             {!(loading) ? 
             <>
                 <div className="bg-gradient-to-b from-stone-800/80 from-10% to-stone-900/80 rounded-3xl mb-20 mt-20 mx-36 z-10 relative" data-aos="fade-up" data-aos-duration="800">
-                    <p className="text-center text-5xl font-black pt-10">Spotify Songs Recommender</p>
-                    <p className="text-center text-4xl mt-10 font-bold text-green-600">Let us help you find the perfect songs</p>
+                    <p className="text-center text-5xl font-black pt-10 mx-5">Spotify Songs Recommender</p>
+                    <p className="text-center text-4xl mt-10 font-bold text-green-600 mx-5">Let us help you find the perfect songs</p>
                     <div className="flex justify-center pb-10">
                         <button className="btn btn-success mt-6" onClick={()=>document.getElementById('my_modal_2').showModal()}>Search</button>
                     </div>
